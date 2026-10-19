@@ -3500,10 +3500,10 @@ local function watch()
 
 	if profile ~= run.last_profile or debug_value ~= run.last_debug or action_value ~= run.last_action or enabled_value ~= run.last_enabled then
 		make_config()
-		run.last_profile = whk.profile_name
-		run.last_debug = debug_on()
-		run.last_action = cfg().anticheat.action
-		run.last_enabled = cfg().base.enabled
+		run.last_profile = profile
+		run.last_debug = debug_value
+		run.last_action = action_value
+		run.last_enabled = enabled_value
 		whk.reset("watch")
 		dbg("watch rebuild: " .. profile_line())
 	end
