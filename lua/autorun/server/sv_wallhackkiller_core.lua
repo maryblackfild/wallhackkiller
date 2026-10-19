@@ -3134,38 +3134,47 @@ local function sound_hook(data)
 	local pitch = data.Pitch or 100
 	local dsp = data.DSP or 0
 
-	if clear_count > 0 then
-		EmitSound(snd, position, ent_index, channel, volume, snd_level, flags, pitch, dsp, clear_filter)
-	end
+	redirecting_sound = true
 
-	if soft_count > 0 then
-		EmitSound(
-			snd,
-			position,
-			ent_index,
-			channel,
-			volume * (kind_cfg.soft_volume_scale or 1),
-			math_max(0, math_floor(snd_level * (kind_cfg.soft_level_scale or 1))),
-			flags,
-			pitch,
-			dsp,
-			soft_filter
-		)
-	end
+	local success, err = pcall(function()
+		if clear_count > 0 then
+			EmitSound(snd, position, ent_index, channel, volume, snd_level, flags, pitch, dsp, clear_filter) -- 29 april
+		end
 
-	if hard_count > 0 then
-		EmitSound(
-			snd,
-			position,
-			ent_index,
-			channel,
-			volume * (kind_cfg.hard_volume_scale or 1),
-			math_max(0, math_floor(snd_level * (kind_cfg.hard_level_scale or 1))),
-			flags,
-			pitch,
-			dsp,
-			hard_filter
-		)
+		if soft_count > 0 then
+			EmitSound(
+				snd,
+				position,
+				ent_index,
+				channel,
+				volume * (kind_cfg.soft_volume_scale or 1),
+				math_max(0, math_floor(snd_level * (kind_cfg.soft_level_scale or 1))),
+				flags,
+				pitch,
+				dsp,
+				soft_filter
+			)
+		end
+
+		if hard_count > 0 then
+			EmitSound(
+				snd,
+				position,
+				ent_index,
+				channel,
+				volume * (kind_cfg.hard_volume_scale or 1),
+				math_max(0, math_floor(snd_level * (kind_cfg.hard_level_scale or 1))),
+				flags,
+				pitch,
+				dsp,
+				hard_filter
+			)
+		end
+	end)
+
+	redirecting_sound = false
+	if not success then
+		err_stack("wallhackkiller sound: " .. tostring(err) .. "\n")
 	end
 
 	return false
