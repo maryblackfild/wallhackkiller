@@ -3610,10 +3610,12 @@ whk.stop = stop
 
 clear_hooks()
 make_config()
-run.last_profile = whk.profile_name
-run.last_debug = debug_on()
-run.last_action = cfg().anticheat.action
-run.last_enabled = cfg().base.enabled
+
+run.last_profile = lower(cvar_profile and cvar_profile:GetString() or whk.profile_name)
+run.last_debug = cvar_debug and cvar_debug:GetBool() or false
+run.last_action = cvar_ac_action and lower(cvar_ac_action:GetString()) or "hook"
+run.last_enabled = not cvar_enabled or cvar_enabled:GetBool()
+
 stock_walls()
 seed()
 hooks()
