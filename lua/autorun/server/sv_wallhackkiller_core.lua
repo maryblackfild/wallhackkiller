@@ -50,14 +50,11 @@ local vec = Vector
 local cvar = CreateConVar
 local err_stack = ErrorNoHaltWithStack
 local server_log = ServerLog
-local sys_clock = SysTime
 local engine_tick = engine and engine.TickInterval and engine.TickInterval or function()
 	return 0.015
 end
 
 local con_add = concommand.Add
-local ents_class = ents.FindByClass
-local ents_name = ents.FindByName
 local ents_all = ents.GetAll
 local hook_add = hook.Add
 local hook_table = hook.GetTable
@@ -67,12 +64,10 @@ local players_all = player.GetAll
 local timer_make = timer.Create
 local timer_drop = timer.Remove
 local timer_later = timer.Simple
-local crc = util.CRC
 local surface_name = util.GetSurfacePropName
 local trace_hull = util.TraceHull
 local trace_line = util.TraceLine
 
-local ipairs = ipairs
 local func = isfunction
 local num = isnumber
 local str = isstring
@@ -100,7 +95,6 @@ local tostring = tostring
 local prefix = "WHK.core."
 local mask_visual = MASK_VISIBLE_AND_NPCS or MASK_VISIBLE or MASK_SOLID
 local mask_audio = MASK_VISIBLE_AND_NPCS or MASK_VISIBLE or MASK_SOLID
-local obs_none = OBS_MODE_NONE or 0
 local cvar_flags = FCVAR_ARCHIVE or 0
 local zero_vec = vec(0, 0, 0)
 
