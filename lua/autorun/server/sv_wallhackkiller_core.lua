@@ -517,33 +517,6 @@ local function merge(target, patch)
 	return target
 end
 
-local function setof(input)
-	local out = {}
-
-	if input == nil then
-		return out
-	end
-
-	if str(input) or num(input) then
-		out[input] = true
-		return out
-	end
-
-	if not tab(input) then
-		return out
-	end
-
-	for key, value in pairs(input) do
-		if num(key) then
-			out[value] = true
-		elseif value then
-			out[key] = true
-		end
-	end
-
-	return out
-end
-
 local function lower(value)
 	if not str(value) or value == "" then
 		return ""
@@ -552,17 +525,8 @@ local function lower(value)
 	return string_lower(value)
 end
 
-local function log_push(message)
-	local buffer = run.log_buffer
-	buffer[#buffer + 1] = message
-	if #buffer > 128 then
-		table_remove(buffer, 1)
-	end
-end
-
 local function log(message)
 	local line = string_format("[WHK] %s\n", message)
-	log_push(line)
 	server_log(line)
 end
 
