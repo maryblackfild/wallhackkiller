@@ -3045,8 +3045,10 @@ local function transmit(entity, viewer)
 	return TRANSMIT_NEVER
 end
 
+local redirecting_sound = false
+
 local function sound_hook(data)
-	if not cfg().base.enabled or not cfg().audio.enabled or not data then
+	if redirecting_sound or not cfg().base.enabled or not cfg().audio.enabled or not data then -- рекурсия
 		return
 	end
 
