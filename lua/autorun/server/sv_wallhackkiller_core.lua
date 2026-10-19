@@ -3496,7 +3496,7 @@ local function watch()
 	local profile = lower(cvar_profile and cvar_profile:GetString() or whk.profile_name)
 	local debug_value = cvar_debug and cvar_debug:GetBool() or false
 	local action_value = cvar_ac_action and lower(cvar_ac_action:GetString()) or "hook"
-	local enabled_value = cvar_enabled and cvar_enabled:GetBool() or true
+	local enabled_value = not cvar_enabled or cvar_enabled:GetBool() -- off whk fix
 
 	if profile ~= run.last_profile or debug_value ~= run.last_debug or action_value ~= run.last_action or enabled_value ~= run.last_enabled then
 		make_config()
