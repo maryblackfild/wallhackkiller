@@ -3541,11 +3541,19 @@ function whk.reset(reason)
 	dbg("reinitialized: " .. tostring(reason or "manual"))
 end
 
-con_add("whk_rebuild", function()
+con_add("whk_rebuild", function(ply)
+	if ok(ply) and not ply:IsSuperAdmin() then
+		return
+	end
+
 	whk.reset("console")
 end)
 
-con_add("whk_profile_set", function(_, _, args)
+con_add("whk_profile_set", function(ply, _, args)
+	if ok(ply) and not ply:IsSuperAdmin() then
+		return
+	end
+
 	if args[1] then
 		whk.profile(args[1])
 	end
