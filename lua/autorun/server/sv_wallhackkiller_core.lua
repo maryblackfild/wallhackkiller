@@ -42,8 +42,6 @@ if old_stop then
 	pcall(old_stop, "reload")
 end
 
-whk.skip = skip
-
 local clock = CurTime
 local ok = IsValid
 local vec = Vector
@@ -105,7 +103,6 @@ local run = {
 	detection = setmetatable({}, { __mode = "k" }),
 	occluder_rules = {},
 	occluder_order = {},
-	sound_classifiers = {},
 	sound_classifier_order = {},
 	trace_context = nil,
 	trace_skip = nil,
@@ -117,9 +114,7 @@ local run = {
 	next_step = 0,
 	next_watchdog = 0,
 	last_error = 0,
-	log_buffer = {},
 	rule_sequence = 0,
-	sound_sequence = 0,
 	last_profile = nil,
 	last_debug = nil,
 	last_action = nil,
@@ -1408,7 +1403,6 @@ function whk.sound(id, callback, priority)
 	end
 
 	local entry = sound_rule(id, callback, priority)
-	run.sound_classifiers[id] = entry
 
 	local replaced = false
 	for index = 1, #run.sound_classifier_order do
@@ -1431,8 +1425,6 @@ function whk.unsound(id)
 	if not str(id) or id == "" then
 		return false
 	end
-
-	run.sound_classifiers[id] = nil
 
 	for index = #run.sound_classifier_order, 1, -1 do
 		if run.sound_classifier_order[index].id == id then
